@@ -22,7 +22,7 @@ const Visulizer = () => {
   }
   return (
     // <div>
-    <SplitPane>
+    <SplitPane split="horizontal">
       <SplitPane size={'70%'} maxSize={'70%'} minSize={'30%'}>
         <VisulizerComponent
           joint0Radians={joint0}
@@ -32,7 +32,7 @@ const Visulizer = () => {
           joint4Radians={joint4}
           joint5Radians={joint5}
           colorValue={'black'}
-          gripperSize={60}
+          gripperSize={100}
           backgroundColor={'rgba(255,255,255,1)'}
         />
       </SplitPane>

@@ -19,7 +19,8 @@ import {
   Animation,
   CubicEase,
   EasingFunction,
-  AbstractMesh
+  AbstractMesh,
+  Quaternion
 } from '@babylonjs/core'
 import { GridMaterial } from '@babylonjs/materials'
 import '@babylonjs/loaders'
@@ -167,16 +168,19 @@ const VisulizerComponent = ({
       })
     }
   }
-  const UpdateArmAngle = (joint: AbstractMesh | null, angle: number, axis: number) => {
+  const UpdateArmAngle = (joint: AbstractMesh | null, angle: number, axis: Vector3) => {
     if (joint) {
-      console.log(joint && joint.rotation, 'angle', angle)
-      if (axis == 0) {
-        joint.rotation.x = angle
-      } else if (axis == 1) {
-        joint.rotation.y = angle
-      } else {
-        joint.rotation.z = angle
-      }
+      // console.log(joint && joint.rotation, 'angle', angle)
+      // angle = 1.57
+      let quaternion = Quaternion.RotationAxis(axis, angle)
+      joint.rotationQuaternion = quaternion
+      // if (axis == 0) {
+      //   joint.rotation.x = angle
+      // } else if (axis == 1) {
+      //   joint.rotation.y = angle
+      // } else {
+      //   joint.rotation.z = angle
+      // }
     }
   }
 
@@ -188,15 +192,17 @@ const VisulizerComponent = ({
     joint4Radians: number,
     joint5Radians: number
   ) => {
-    UpdateArmAngle(joint_0, joint0Radians, 2)
-    UpdateArmAngle(joint_1, joint1Radians, 2)
-    UpdateArmAngle(joint_2, joint2Radians, 1)
-    UpdateArmAngle(joint_3, joint3Radians, 2)
-    UpdateArmAngle(joint_4, joint4Radians, 1)
-    UpdateArmAngle(joint_5, joint5Radians, 2)
+    UpdateArmAngle(joint_0, joint0Radians, new Vector3(0, 1, 0))
+    UpdateArmAngle(joint_1, joint1Radians, new Vector3(0, 0, 1))
+    UpdateArmAngle(joint_2, joint2Radians, new Vector3(0, 1, 0))
+    UpdateArmAngle(joint_3, joint3Radians, new Vector3(0, 0, 1))
+    UpdateArmAngle(joint_4, joint4Radians, new Vector3(0, 1, 0))
+    UpdateArmAngle(joint_5, joint5Radians, new Vector3(0, 0, 1))
   }
 
   const setGripperOpenSize = (sizeValue: number) => {
+    console.log('sizee====', sizeValue)
+    // sizeValue = 100
     if (sizeValue < 0) {
       sizeValue = 0
     } else if (sizeValue > 100) {
@@ -232,57 +238,104 @@ const VisulizerComponent = ({
     scene.imageProcessingConfiguration.exposure = 1.5
     scene.imageProcessingConfiguration.toneMappingEnabled = true
     //Initialize the first camera
-    var camera = new ArcRotateCamera('Camera', -Math.PI * 0.5, 1.1903662489867926, 2, Vector3.Zero(), scene)
+    var camera = new ArcRotateCamera('Camera', -Math.PI * 0.5, 1.1903662489867926, 50, Vector3.Zero(), scene)
     // Import the babylon modal
     // https://www.dropbox.com/s/6mxd3rvdl6tfowq/StandardBot.babylon?dl=0
     //www.dropbox.com/s/3vib5iegmkrxua3/StandardBot.glb?dl=0
     //https://www.dropbox.com/s/pt0hlu4m1ahtmzj/SampleScene.babylon?dl=0
 
     // SceneLoader.ImportMeshAsync('', 'https://models.babylonjs.com/Demos/shaderBall/', 'BabylonShaderBall_Simple.gltf', scene).then(() => {})
-    SceneLoader.ImportMeshAsync('', '/', 'SampleScene.babylon', scene)
-      .then(result => {
-        console.log('result', result)
-        for (let i = 0; i < result!.meshes!.length; i++) {
-          let meshes = result.meshes
-          console.log('MeshName is: ', meshes[i].parent)
-        }
+    SceneLoader.ImportMeshAsync('', '/', 'SampleScene2.babylon', scene)
+      .then(() => {
+        // console.log('result', result)
+        // for (let i = 0; i < result!.meshes!.length; i++) {
+        //   let meshes = result.meshes
+        //   console.log('MeshName is: ', meshes[i].name)
+        // }
         setIsModalLoaded(true)
         //Rotate on Z
-        joint_0 = scene.getMeshByName('RotationPoint_0')
+        joint_0 = scene.getMeshByName('Joint1')
+        // joint_0!.rotation!.y = 1
+        // let quaternion = Quaternion.RotationAxis(new Vector3(0, 1, 0), 3.14)
+        // joint_0!.rotationQuaternion = quaternion
         //Rotate on Y
-        joint_1 = scene.getMeshByName('RotationPoint_1')
-        console.log('joint_1', joint_1)
+        joint_1 = scene.getMeshByName('Joint2')
+        // console.log('joint_1', joint_1)
         //Rotate on z
-        joint_2 = scene.getMeshByName('RotationPoint_2')
+        joint_2 = scene.getMeshByName('Joint3')
 
         //Rotate on Y
-        joint_3 = scene.getMeshByName('RotationPoint_3')
+        joint_3 = scene.getMeshByName('Joint4')
 
         //Rotate on Z
-        joint_4 = scene.getMeshByName('RotationPoint_4')
+        joint_4 = scene.getMeshByName('Joint5')
 
         //Rotate on z
-        joint_5 = scene.getMeshByName('RotationPoint_5')
+        joint_5 = scene.getMeshByName('Joint6')
+        let joint_7 = scene.getMeshByName('Joint7')
+        let joint_8 = scene.getMeshByName('Joint8')
+
+        joint_0!.setPivotPoint(new Vector3(0, 0, 0))
         console.log(scene, 'joint_0', joint_0)
         console.log('joint_1', joint_1)
         console.log('joint_2', joint_2)
         console.log('joint_3', joint_3)
         console.log('joint_4', joint_4)
         console.log('joint_5', joint_5)
-        if (joint_1) {
-          console.log(joint_1.parent)
-          console.log(joint_1.getChildren())
-        }
-        // Get Gripper Meshes
-        gripper_Joint_Inner_Left = scene.getMeshByName('Gripper_Joint_Inner_Left')
-        gripper_Joint_Outer_Left = scene.getMeshByName('Gripper_Joint_Outer_Left')
-        gripper_Joint_Inner_Right = scene.getMeshByName('Gripper_Joint_Inner_Right')
-        gripper_Joint_Outer_Right = scene.getMeshByName('Gripper_Joint_Outer_Right')
-        gripper_Tip_Left = scene.getMeshByName('Gripper_Tip_Left')
-        gripper_Tip_Right = scene.getMeshByName('Gripper_Tip_Right')
+        console.log('joint_7', joint_7)
+        console.log('joint_8', joint_8)
 
+        // var mat_joint1 = new StandardMaterial('mat', scene)
+        // mat_joint1.diffuseColor = Color3.Green()
+        // joint_1!.material = mat_joint1
+
+        // var mat_joint0 = new StandardMaterial('mat', scene)
+        // mat_joint0.diffuseColor = Color3.Red()
+        // joint_0!.material = mat_joint0
+
+        // var mat_joint2 = new StandardMaterial('mat', scene)
+        // mat_joint2.diffuseColor = Color3.Blue()
+        // joint_2!.material = mat_joint2
+
+        // var mat_joint3 = new StandardMaterial('mat', scene)
+        // mat_joint3.diffuseColor = Color3.Yellow()
+        // joint_3!.material = mat_joint3
+
+        // var mat_joint4 = new StandardMaterial('mat', scene)
+        // mat_joint4.diffuseColor = Color3.Green()
+        // joint_4!.material = mat_joint4
+
+        // var mat_joint5 = new StandardMaterial('mat', scene)
+        // mat_joint5.diffuseColor = Color3.Blue()
+        // joint_5!.material = mat_joint5
+
+        // var mat_joint7 = new StandardMaterial('mat', scene)
+        // mat_joint7.diffuseColor = Color3.Magenta()
+        // joint_7!.material = mat_joint7
+
+        // var mat_joint8 = new StandardMaterial('mat', scene)
+        // mat_joint8.diffuseColor = Color3.White()
+        // joint_8!.material = mat_joint8
+        // Get Gripper Meshes
+        gripper_Joint_Inner_Left = scene.getMeshByName('polySurface1')
+        gripper_Joint_Outer_Left = scene.getMeshByName('polySurface2')
+        gripper_Joint_Inner_Right = scene.getMeshByName('polySurface3')
+        gripper_Joint_Outer_Right = scene.getMeshByName('polySurface4')
+        gripper_Tip_Left = scene.getMeshByName('polySurface5')
+        gripper_Tip_Right = scene.getMeshByName('polySurface6')
+        // let polySurface7 = scene.getMeshByName('polySurface7')
+        // let polySurface8 = scene.getMeshByName('polySurface8')
+
+        // gripper_Joint_Inner_Left!.material = mat_joint7
+        // gripper_Joint_Outer_Left!.material = mat_joint5
+        // gripper_Joint_Inner_Right!.material = mat_joint4
+        // gripper_Joint_Outer_Right!.material = mat_joint3
+        // gripper_Tip_Left!.material = mat_joint2
+        // gripper_Tip_Right!.material = mat_joint1
+        // polySurface7!.material = mat_joint0
+        // polySurface8!.material = mat_joint8
         setJointPosition(0, 0, 0, 0, 0, 0)
-        setGripperOpenSize(60)
+        // setGripperOpenSize(100)
 
         // let subMeshes = result!.meshes
         // for (let i = 0; i < subMeshes.length; i++) {
@@ -361,13 +414,13 @@ const VisulizerComponent = ({
     var groundMaterial = new GridMaterial('groundMaterial', scene)
     groundMaterial.majorUnitFrequency = 5
     groundMaterial.minorUnitVisibility = 0.45
-    groundMaterial.gridRatio = 1
+    groundMaterial.gridRatio = 5
     groundMaterial.backFaceCulling = false
     groundMaterial.mainColor = Color3.FromHexString('#6C6C6C')
     groundMaterial.lineColor = new Color3(1.0, 1.0, 1.0)
     groundMaterial.opacity = 0.48
 
-    var ground = MeshBuilder.CreateGround('ground', { width: 50, height: 50 }, scene)
+    var ground = MeshBuilder.CreateGround('ground', { width: 150, height: 150 }, scene)
     ground.material = groundMaterial
 
     scene.cameraToUseForPointers = camera2
@@ -418,7 +471,7 @@ const VisulizerComponent = ({
 
     //Check click on the scene and if any box face is clicked rotate the ground to that position
     scene.onPointerUp = function(ev: PointerEvent, pickResult: PickingInfo | null) {
-      console.log('pickResult', ev)
+      // console.log('pickResult', ev)
       ev.preventDefault()
       if (pickResult && pickResult.hit) {
         if (pickResult!.pickedMesh && pickResult!.pickedMesh!.id === 'box') {
@@ -476,7 +529,7 @@ const VisulizerComponent = ({
     }
   }
   const spinTo = (whichprop: any, targetval: any, speed: number, camera: ArcRotateCamera) => {
-    console.log('gherssss')
+    // console.log('gherssss')
     var ease = new CubicEase()
     ease.setEasingMode(EasingFunction.EASINGMODE_EASEINOUT)
     Animation.CreateAndStartAnimation('at4', camera, whichprop, speed, 120, camera[whichprop], targetval, 0, ease)
@@ -485,15 +538,6 @@ const VisulizerComponent = ({
     camera.alpha = alpha
     camera.beta = beta
   }
-
-  // const setSecondCameraPosition = (
-  //   alpha: number,
-  //   beta: number,
-  //   camera: ArcRotateCamera
-  // ) => {
-  //   camera.alpha = alpha;
-  //   camera.beta = beta;
-  // };
 
   /**
    * Will run on every frame render.  We are spinning the box on y-axis.
