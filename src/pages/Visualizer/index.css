@@ -53,5 +53,43 @@
 }
 
 .input-box {
+  padding: 5px;
+  margin-top:5px;
+  margin-bottom:5px;
+}
+
+.MuiInputBase-root .MuiOutlinedInput-root .MuiInputBase-formControl{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.MuiInputBase-input .MuiOutlinedInput-input{
+  padding:5px!important;
+}
+
+.PrivateNotchedOutline-legendLabelled-3 > span{
+  font-size: xx-small;
+}
+.color-picker-container {
+    padding: 10px;
+    border-color: black;
+    border: 1px solid #c4c4c4;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.background-indicator{
+  background-color: #fafafa;
+  border:1px solid #ededed;
+  width: 85%;
+  display:flex;
   padding: 10px;
+  flex-direction:row;
+  justify-content: space-between;
+}
+.color-pallete {
+    width: 20px;
+    border: 1px solid #ededed;
+    height: 20px;
+    border-radius: 10px;
 }
