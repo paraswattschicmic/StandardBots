@@ -34,8 +34,7 @@ const SideMenuItem: React.SFC<SideMenuItemProps> = ({ depthStep = 10, depth = 0,
     setCollapsed(prevValue => !prevValue)
   }
 
-  const onClickFunction = (e: any) => {
-    console.log(e)
+  const onClickFunction = () => {
     if (Array.isArray(items)) {
       toggleCollapse()
     }

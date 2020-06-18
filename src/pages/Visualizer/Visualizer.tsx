@@ -1,3 +1,11 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable no-multi-assign */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-shadow */
+/* eslint-disable spaced-comment */
+/* eslint-disable vars-on-top */
+/* eslint-disable no-var */
+/* eslint-disable @typescript-eslint/camelcase */
 import React, { useEffect, useRef, useState } from 'react'
 import {
   Scene,
@@ -59,7 +67,7 @@ export const SceneComponent = (props: any) => {
         window.removeEventListener('resize', resize)
       }
     }
-    return () => {}
+    return () => { }
   }, [scene])
 
   useEffect(() => {
@@ -94,7 +102,7 @@ export const SceneComponent = (props: any) => {
   return (
     <div className="row">
       <div className="container-fluid">
-        <canvas style={{ width: '100%', height: '100%' }} ref={reactCanvas} {...rest} />
+        <canvas id="canvasId" style={{ width: '100%', height: '100%' }} ref={reactCanvas} {...rest} />
         {/* {!isModalLoaded ? (
           <div className={'loading-div'}>
             <div className="loader"></div>
@@ -119,6 +127,8 @@ export interface VisulizerComponentProps {
   gripperSize: number
 }
 
+
+
 const VisulizerComponent = ({
   joint0Radians,
   joint1Radians,
@@ -133,6 +143,26 @@ const VisulizerComponent = ({
   const [isModalLoaded, setIsModalLoaded] = useState(false)
   const [scene, setScene] = useState<Scene | null>(null)
   const [radianstoDegreeFactor] = useState(57.2958)
+
+  // useEffect(() => {
+
+  //   document.addEventListener('scroll', () => {
+  //   })
+  //   return () => {
+  //     document.removeEventListener('scroll', () => {
+  //       document.getElementById('canvasId').onwheel = (event) => {
+  //         event.preventDefault()
+  //       }
+  //     })
+  //   }
+  // }, [])
+
+  // if (document && document.getElementById('canvasId') !== null) {
+  //   document.getElementById('canvasId').onwheel = (event) => {
+  //     event.preventDefault()
+  //   }
+  // }
+
 
   // function to convert rgba values to array
   const colorValues = (color: any) => {
@@ -163,7 +193,7 @@ const VisulizerComponent = ({
     }
     if (color.indexOf('rgb') === 0) {
       if (color.indexOf('rgba') === -1) color += ',1' // convert 'rgb(R,G,B)' to 'rgb(R,G,B)A' which looks awful but will pass the regxep below
-      return color.match(/[\.\d]+/g).map(function(a: number) {
+      return color.match(/[\.\d]+/g).map(function (a: number) {
         return +a
       })
     }
@@ -201,7 +231,6 @@ const VisulizerComponent = ({
   }
 
   const setGripperOpenSize = (sizeValue: number) => {
-    console.log('sizee====', sizeValue)
     // sizeValue = 100
     if (sizeValue < 0) {
       sizeValue = 0
@@ -239,12 +268,6 @@ const VisulizerComponent = ({
     scene.imageProcessingConfiguration.toneMappingEnabled = true
     //Initialize the first camera
     var camera = new ArcRotateCamera('Camera', -Math.PI * 0.5, 1.1903662489867926, 50, Vector3.Zero(), scene)
-    // Import the babylon modal
-    // https://www.dropbox.com/s/6mxd3rvdl6tfowq/StandardBot.babylon?dl=0
-    //www.dropbox.com/s/3vib5iegmkrxua3/StandardBot.glb?dl=0
-    //https://www.dropbox.com/s/pt0hlu4m1ahtmzj/SampleScene.babylon?dl=0
-
-    // SceneLoader.ImportMeshAsync('', 'https://models.babylonjs.com/Demos/shaderBall/', 'BabylonShaderBall_Simple.gltf', scene).then(() => {})
     SceneLoader.ImportMeshAsync('', '/', 'SampleScene2.babylon', scene)
       .then(() => {
         // console.log('result', result)
@@ -255,67 +278,21 @@ const VisulizerComponent = ({
         setIsModalLoaded(true)
         //Rotate on Z
         joint_0 = scene.getMeshByName('Joint1')
-        // joint_0!.rotation!.y = 1
-        // let quaternion = Quaternion.RotationAxis(new Vector3(0, 1, 0), 3.14)
-        // joint_0!.rotationQuaternion = quaternion
         //Rotate on Y
         joint_1 = scene.getMeshByName('Joint2')
-        // console.log('joint_1', joint_1)
         //Rotate on z
         joint_2 = scene.getMeshByName('Joint3')
-
         //Rotate on Y
         joint_3 = scene.getMeshByName('Joint4')
-
         //Rotate on Z
         joint_4 = scene.getMeshByName('Joint5')
-
         //Rotate on z
         joint_5 = scene.getMeshByName('Joint6')
-        let joint_7 = scene.getMeshByName('Joint7')
-        let joint_8 = scene.getMeshByName('Joint8')
+        // let joint_7 = scene.getMeshByName('Joint7')
+        // let joint_8 = scene.getMeshByName('Joint8')
 
         joint_0!.setPivotPoint(new Vector3(0, 0, 0))
-        console.log(scene, 'joint_0', joint_0)
-        console.log('joint_1', joint_1)
-        console.log('joint_2', joint_2)
-        console.log('joint_3', joint_3)
-        console.log('joint_4', joint_4)
-        console.log('joint_5', joint_5)
-        console.log('joint_7', joint_7)
-        console.log('joint_8', joint_8)
 
-        // var mat_joint1 = new StandardMaterial('mat', scene)
-        // mat_joint1.diffuseColor = Color3.Green()
-        // joint_1!.material = mat_joint1
-
-        // var mat_joint0 = new StandardMaterial('mat', scene)
-        // mat_joint0.diffuseColor = Color3.Red()
-        // joint_0!.material = mat_joint0
-
-        // var mat_joint2 = new StandardMaterial('mat', scene)
-        // mat_joint2.diffuseColor = Color3.Blue()
-        // joint_2!.material = mat_joint2
-
-        // var mat_joint3 = new StandardMaterial('mat', scene)
-        // mat_joint3.diffuseColor = Color3.Yellow()
-        // joint_3!.material = mat_joint3
-
-        // var mat_joint4 = new StandardMaterial('mat', scene)
-        // mat_joint4.diffuseColor = Color3.Green()
-        // joint_4!.material = mat_joint4
-
-        // var mat_joint5 = new StandardMaterial('mat', scene)
-        // mat_joint5.diffuseColor = Color3.Blue()
-        // joint_5!.material = mat_joint5
-
-        // var mat_joint7 = new StandardMaterial('mat', scene)
-        // mat_joint7.diffuseColor = Color3.Magenta()
-        // joint_7!.material = mat_joint7
-
-        // var mat_joint8 = new StandardMaterial('mat', scene)
-        // mat_joint8.diffuseColor = Color3.White()
-        // joint_8!.material = mat_joint8
         // Get Gripper Meshes
         gripper_Joint_Inner_Left = scene.getMeshByName('polySurface1')
         gripper_Joint_Outer_Left = scene.getMeshByName('polySurface2')
@@ -323,42 +300,7 @@ const VisulizerComponent = ({
         gripper_Joint_Outer_Right = scene.getMeshByName('polySurface4')
         gripper_Tip_Left = scene.getMeshByName('polySurface5')
         gripper_Tip_Right = scene.getMeshByName('polySurface6')
-        // let polySurface7 = scene.getMeshByName('polySurface7')
-        // let polySurface8 = scene.getMeshByName('polySurface8')
-
-        // gripper_Joint_Inner_Left!.material = mat_joint7
-        // gripper_Joint_Outer_Left!.material = mat_joint5
-        // gripper_Joint_Inner_Right!.material = mat_joint4
-        // gripper_Joint_Outer_Right!.material = mat_joint3
-        // gripper_Tip_Left!.material = mat_joint2
-        // gripper_Tip_Right!.material = mat_joint1
-        // polySurface7!.material = mat_joint0
-        // polySurface8!.material = mat_joint8
         setJointPosition(0, 0, 0, 0, 0, 0)
-        // setGripperOpenSize(100)
-
-        // let subMeshes = result!.meshes
-        // for (let i = 0; i < subMeshes.length; i++) {
-        //   if (subMeshes[i] && subMeshes[i].material) {
-        //     subMeshes[i]!.material!.wireframe = false
-        //   }
-        // }
-
-        // let distance = Vector3.Distance(joint_1!.position, joint_5!.position);
-        // MeshBuilder.CreateSphere('', {}, scene)
-        // let bb = sphere.getBoundingInfo().boundingBox;
-        // let bb1 = sphere.getBoundingInfo().boundingSphere;
-
-        // let robotBase = scene.getMeshByName("RobotBase");
-        // setTimeout(() => {
-        //   console.log(robotBase!.position, "diagonalLength", bb);
-        // }, 2000);
-        // var material = new StandardMaterial("sphereColor", scene);
-        // material.alpha = 1;
-        // // material.diffuseColor = new Color4(1.0, 0.2, 0.7,0.5);
-        // material.wireframe = true;
-        // sphere.material = material; // <--
-        // console.log(sphere, "distance", distance, "bb1", bb1);
       })
       .catch(error => {
         console.log('error', error)
@@ -370,6 +312,13 @@ const VisulizerComponent = ({
       console.warn('scene does not have canvas')
       return
     }
+    if (canvas) {
+      canvas.addEventListener("mouseover", function (event) {
+        document!.getElementById("canvasId")!.onwheel = (event) => {
+          event.preventDefault()
+        }
+      })
+    }
 
     camera.panningSensibility = 1500
     camera.wheelPrecision = 80
@@ -377,19 +326,15 @@ const VisulizerComponent = ({
     camera.angularSensibilityY = 1500
     camera.attachControl(canvas, true)
     camera.allowUpsideDown = true // don't allow inversing camera
-    // camera.lowerRadiusLimit = 0;
     camera.upperRadiusLimit = 100
     camera.minZ = 0
-    // camera.viewport = new Viewport(0, 0, 1, 1);
-    // Set to use only right mouse button
-    // ;(camera.inputs.attached.pointers as ArcRotateCameraPointersInput).buttons = [2]
     scene.activeCameras.push(camera)
 
     //Initialize the Second camera
     var camera2 = new ArcRotateCamera('Camera2', -Math.PI * 0.5, 1.1903662489867926, 12, Vector3.Zero(), scene)
     camera2.lowerRadiusLimit = camera2.upperRadiusLimit = camera2.radius
-    //Set to use only left mouse button
-    ;(camera2.inputs.attached.pointers as ArcRotateCameraPointersInput).buttons = [0]
+      //Set to use only left mouse button
+      ; (camera2.inputs.attached.pointers as ArcRotateCameraPointersInput).buttons = [0]
 
     // Observe changes in second camera alpha and beta and set alpha and beta for the first camera
     camera2.onViewMatrixChangedObservable.add(() => {
@@ -446,7 +391,7 @@ const VisulizerComponent = ({
     }
     //wrap set
     var options = {
-      faceUV: faceUV,
+      faceUV,
       wrap: true,
       size: 2.5
     }
@@ -455,8 +400,7 @@ const VisulizerComponent = ({
     box.layerMask = C2M
 
     // Observe pointer movements to enable and disable rotation controls and change mouse cursor
-    scene.onPointerMove = function(ev: PointerEvent) {
-      // pickResult.bu
+    scene.onPointerMove = function (ev: PointerEvent) {
       if (ev.y >= 0 && ev.y <= 160 && ev.x <= window.innerWidth && ev.x >= window.innerWidth - 200) {
         camera2.attachControl(canvas, true)
         canvas.style.cursor = 'move'
@@ -465,60 +409,44 @@ const VisulizerComponent = ({
         camera2.detachControl(canvas)
       }
     }
-    // scene.onPointerUp = function(ev: PointerEvent, pickResult: PickingInfo | null) {
-    //   console.log(pickResult, 'pointer up', ev)
-    // }
 
     //Check click on the scene and if any box face is clicked rotate the ground to that position
-    scene.onPointerUp = function(ev: PointerEvent, pickResult: PickingInfo | null) {
-      // console.log('pickResult', ev)
+    scene.onPointerUp = function (ev: PointerEvent, pickResult: PickingInfo | null) {
       ev.preventDefault()
       if (pickResult && pickResult.hit) {
         if (pickResult!.pickedMesh && pickResult!.pickedMesh!.id === 'box') {
           let face = Math.floor(pickResult.faceId / 2)
           if (face === 0) {
-            // setCameraPosition(Math.PI * 0.5, Math.PI / 2, camera);
-            // setSecondCameraPosition(Math.PI * 0.5, Math.PI / 2, camera2);
             spinTo('alpha', -Math.PI * 1.5, 100, camera)
             spinTo('beta', Math.PI * 0.5, 100, camera)
             spinTo('alpha', -Math.PI * 1.5, 100, camera2)
             spinTo('beta', Math.PI * 0.5, 100, camera2)
           }
           if (face === 1) {
-            // setCameraPosition(-Math.PI * 0.5, Math.PI / 2, camera);
-            // setSecondCameraPosition(-Math.PI * 0.5, Math.PI / 2, camera2);
             spinTo('alpha', -Math.PI * 0.5, 100, camera)
             spinTo('beta', Math.PI * 0.5, 100, camera)
             spinTo('alpha', -Math.PI * 0.5, 100, camera2)
             spinTo('beta', Math.PI * 0.5, 100, camera2)
           }
           if (face === 2) {
-            // setCameraPosition(0, Math.PI / 2, camera);
-            // setSecondCameraPosition(0, Math.PI / 2, camera2);
             spinTo('alpha', 0, 100, camera)
             spinTo('beta', Math.PI * 0.5, 100, camera)
             spinTo('alpha', 0, 100, camera2)
             spinTo('beta', Math.PI * 0.5, 100, camera2)
           }
           if (face === 3) {
-            // setCameraPosition(-Math.PI, Math.PI / 2, camera);
-            // setSecondCameraPosition(-Math.PI, Math.PI / 2, camera2);
             spinTo('alpha', -Math.PI, 100, camera)
             spinTo('beta', Math.PI * 0.5, 100, camera)
             spinTo('alpha', -Math.PI, 100, camera2)
             spinTo('beta', Math.PI * 0.5, 100, camera2)
           }
           if (face === 4) {
-            // setCameraPosition(-Math.PI * 0.5, 0, camera);
-            // setSecondCameraPosition(-Math.PI * 0.5, 0, camera2);
             spinTo('alpha', -Math.PI * 0.5, 100, camera)
             spinTo('beta', 0, 100, camera)
             spinTo('alpha', -Math.PI * 0.5, 100, camera2)
             spinTo('beta', 0, 100, camera2)
           }
           if (face === 5) {
-            // setCameraPosition(-Math.PI * 0.5, Math.PI, camera);
-            // setSecondCameraPosition(-Math.PI * 0.5, Math.PI, camera2);
             spinTo('alpha', -Math.PI * 0.5, 100, camera)
             spinTo('beta', Math.PI, 100, camera)
             spinTo('alpha', -Math.PI * 0.5, 100, camera2)

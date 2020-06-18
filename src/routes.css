@@ -3,8 +3,16 @@
     align-self: center;
     height: calc(100vh - 54px);
 }
+.col-md-3 {
+    -ms-flex: 0 0 15%;
+    flex: 0 0 15%;
+    max-width: 15%;
+}
 .col-md-9.p-0 {
     height: calc(100vh - 54px);
+    -ms-flex: 0 0 85%;
+    flex: 0 0 85%;
+    max-width: 85%;
 }
 .css-glamorous-div--hvdu2p, [data-css-glamorous-div--hvdu2p] {
     display: -webkit-box;

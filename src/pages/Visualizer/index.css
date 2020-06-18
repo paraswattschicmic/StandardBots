@@ -137,3 +137,6 @@ span.MuiTypography-root.MuiFormControlLabel-label.MuiTypography-body1 {
 .MuiInputLabel-outlined.MuiInputLabel-shrink {
     transform: translate(30px, 5px) scale(0.75)!important;
 }
+#canvasId:hover{
+
+}
