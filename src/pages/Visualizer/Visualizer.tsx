@@ -428,7 +428,7 @@ const VisulizerComponent = ({
           let face = Math.floor(pickResult.faceId / 2)
           let sign = Math.sign(camera2.alpha)
           let camera2Alpha = Math.abs(camera2.alpha)
-          let factor = camera2Alpha / Math.PI
+          let factor = Math.ceil(camera2Alpha / Math.PI)
           // let cameraAlpha = Math.abs(camera.alpha)
           if (face === 0) {
             console.log(camera2.alpha, 'camera2 before', camera2.beta)
@@ -463,7 +463,7 @@ const VisulizerComponent = ({
           if (face === 3) {
             // console.log(camera2.alpha, 'camera2 before', camera2.beta)
             // console.log(Math.ceil(camera2.alpha / Math.PI), 'camera2.alpha % Math.PI', camera2.alpha % Math.PI)
-
+            console.log('factor', factor, factor * Math.PI)
             spinTo('alpha', sign === -1 ? -Math.PI * factor : Math.PI * factor, 100, camera)
             spinTo('beta', Math.PI / 2, 100, camera)
             spinTo('alpha', sign === -1 ? -Math.PI * factor : Math.PI * factor, 100, camera2)
