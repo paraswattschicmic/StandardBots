@@ -428,7 +428,6 @@ const VisulizerComponent = ({
           let face = Math.floor(pickResult.faceId / 2)
           let sign = Math.sign(camera2.alpha)
           let camera2Alpha = Math.abs(camera2.alpha)
-          let factor = Math.ceil(camera2Alpha / Math.PI)
           // let cameraAlpha = Math.abs(camera.alpha)
           if (face === 0) {
             console.log(camera2.alpha, 'camera2 before', camera2.beta)
@@ -455,18 +454,25 @@ const VisulizerComponent = ({
           if (face === 2) {
             camera2.alpha = camera2.alpha % (Math.PI / 2)
             camera.alpha = camera.alpha % (Math.PI / 2)
-            spinTo('alpha', -0, 100, camera)
+            spinTo('alpha', 0, 100, camera)
             spinTo('beta', Math.PI / 2, 100, camera)
-            spinTo('alpha', -0, 100, camera2)
+            spinTo('alpha', 0, 100, camera2)
             spinTo('beta', Math.PI / 2, 100, camera2)
           }
           if (face === 3) {
             // console.log(camera2.alpha, 'camera2 before', camera2.beta)
             // console.log(Math.ceil(camera2.alpha / Math.PI), 'camera2.alpha % Math.PI', camera2.alpha % Math.PI)
-            console.log('factor', factor, factor * Math.PI)
-            spinTo('alpha', sign === -1 ? -Math.PI * factor : Math.PI * factor, 100, camera)
+            let factor = camera2Alpha / Math.PI
+            console.log(camera2Alpha, 'camera2Alpha')
+            camera2Alpha = camera2Alpha / factor
+            if (sign === -1) {
+              camera2Alpha = -camera2Alpha
+            }
+            camera2.alpha = camera2Alpha
+            camera.alpha = camera2Alpha
+            spinTo('alpha', sign === -1 ? -Math.PI : Math.PI, 100, camera)
             spinTo('beta', Math.PI / 2, 100, camera)
-            spinTo('alpha', sign === -1 ? -Math.PI * factor : Math.PI * factor, 100, camera2)
+            spinTo('alpha', sign === -1 ? -Math.PI : Math.PI, 100, camera2)
             spinTo('beta', Math.PI / 2, 100, camera2)
           }
           if (face === 4) {
