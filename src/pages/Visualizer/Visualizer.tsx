@@ -32,6 +32,9 @@ let joint_1: AbstractMesh | null,
   joint_4: AbstractMesh | null,
   joint_5: AbstractMesh | null,
   joint_0: AbstractMesh | null,
+  joint_6: AbstractMesh | null,
+  joint_7: AbstractMesh | null,
+  joint_8: AbstractMesh | null,
   gripper_Joint_Inner_Left: AbstractMesh | null,
   gripper_Joint_Outer_Left: AbstractMesh | null,
   gripper_Joint_Inner_Right: AbstractMesh | null,
@@ -114,6 +117,9 @@ export interface VisulizerComponentProps {
   joint3Radians: number
   joint4Radians: number
   joint5Radians: number
+  joint6Radians: number
+  joint7Radians: number
+  joint8Radians: number
   colorValue: string
   backgroundColor: string
   gripperSize: number
@@ -126,6 +132,9 @@ const VisulizerComponent = ({
   joint3Radians,
   joint4Radians,
   joint5Radians,
+  joint6Radians,
+  joint7Radians,
+  joint8Radians,
   colorValue,
   backgroundColor,
   gripperSize
@@ -170,17 +179,8 @@ const VisulizerComponent = ({
   }
   const UpdateArmAngle = (joint: AbstractMesh | null, angle: number, axis: Vector3) => {
     if (joint) {
-      // console.log(joint && joint.rotation, 'angle', angle)
-      // angle = 1.57
       let quaternion = Quaternion.RotationAxis(axis, angle)
       joint.rotationQuaternion = quaternion
-      // if (axis == 0) {
-      //   joint.rotation.x = angle
-      // } else if (axis == 1) {
-      //   joint.rotation.y = angle
-      // } else {
-      //   joint.rotation.z = angle
-      // }
     }
   }
 
@@ -190,19 +190,23 @@ const VisulizerComponent = ({
     joint2Radians: number,
     joint3Radians: number,
     joint4Radians: number,
-    joint5Radians: number
+    joint5Radians: number,
+    joint6Radians: number,
+    joint7Radians: number,
+    joint8Radians: number
   ) => {
-    UpdateArmAngle(joint_0, joint0Radians, new Vector3(0, 1, 0))
-    UpdateArmAngle(joint_1, joint1Radians, new Vector3(0, 0, 1))
-    UpdateArmAngle(joint_2, joint2Radians, new Vector3(0, 1, 0))
-    UpdateArmAngle(joint_3, joint3Radians, new Vector3(0, 0, 1))
-    UpdateArmAngle(joint_4, joint4Radians, new Vector3(0, 1, 0))
-    UpdateArmAngle(joint_5, joint5Radians, new Vector3(0, 0, 1))
+    UpdateArmAngle(joint_0, joint0Radians, new Vector3(0, 0, 1))
+    UpdateArmAngle(joint_1, joint1Radians, new Vector3(0, 1, 0))
+    UpdateArmAngle(joint_2, joint2Radians, new Vector3(0, 0, 1))
+    UpdateArmAngle(joint_3, joint3Radians, new Vector3(0, 1, 0))
+    UpdateArmAngle(joint_4, joint4Radians, new Vector3(0, 0, 1))
+    UpdateArmAngle(joint_5, joint5Radians, new Vector3(0, 1, 0))
+    UpdateArmAngle(joint_6, joint6Radians, new Vector3(0, 0, 1))
+    UpdateArmAngle(joint_7, joint7Radians, new Vector3(0, 1, 0))
+    UpdateArmAngle(joint_8, joint8Radians, new Vector3(0, 0, 1))
   }
 
   const setGripperOpenSize = (sizeValue: number) => {
-    console.log('sizee====', sizeValue)
-    // sizeValue = 100
     if (sizeValue < 0) {
       sizeValue = 0
     } else if (sizeValue > 100) {
@@ -210,25 +214,17 @@ const VisulizerComponent = ({
     }
     var gripperArmAngle = sizeValue - 30.0
     var angleinradian = gripperArmAngle / radianstoDegreeFactor
-    if (gripper_Joint_Inner_Left) {
-      gripper_Joint_Inner_Left.rotation.z = -angleinradian
-    }
-    if (gripper_Joint_Outer_Left) {
-      gripper_Joint_Outer_Left.rotation.z = -angleinradian
-    }
-
-    if (gripper_Joint_Inner_Right) {
-      gripper_Joint_Inner_Right.rotation.z = angleinradian
-    }
-    if (gripper_Joint_Outer_Right) {
-      gripper_Joint_Outer_Right.rotation.z = angleinradian
-    }
-
-    if (gripper_Tip_Left) {
-      gripper_Tip_Left.rotation.z = angleinradian
-    }
-    if (gripper_Tip_Right) {
-      gripper_Tip_Right.rotation.z = -angleinradian
+    setGripper(gripper_Joint_Inner_Left, -angleinradian, new Vector3(0, 1, 0))
+    setGripper(gripper_Joint_Outer_Left, -angleinradian, new Vector3(0, 1, 0))
+    setGripper(gripper_Joint_Inner_Right, angleinradian, new Vector3(0, 1, 0))
+    setGripper(gripper_Joint_Outer_Right, angleinradian, new Vector3(0, 1, 0))
+    setGripper(gripper_Tip_Left, angleinradian, new Vector3(0, 1, 0))
+    setGripper(gripper_Tip_Right, -angleinradian, new Vector3(0, 1, 0))
+  }
+  const setGripper = (joint: AbstractMesh | null, angle: number, axis: Vector3) => {
+    if (joint) {
+      let quaternion = Quaternion.RotationAxis(axis, angle)
+      joint.rotationQuaternion = quaternion
     }
   }
   const onSceneReady = (scene: Scene) => {
@@ -238,104 +234,57 @@ const VisulizerComponent = ({
     scene.imageProcessingConfiguration.exposure = 1.5
     scene.imageProcessingConfiguration.toneMappingEnabled = true
     //Initialize the first camera
+    //-Math.PI * 0.5, 1.1903662489867926
     var camera = new ArcRotateCamera('Camera', -Math.PI * 0.5, 1.1903662489867926, 50, Vector3.Zero(), scene)
+
     // Import the babylon modal
-    // https://www.dropbox.com/s/6mxd3rvdl6tfowq/StandardBot.babylon?dl=0
-    //www.dropbox.com/s/3vib5iegmkrxua3/StandardBot.glb?dl=0
-    //https://www.dropbox.com/s/pt0hlu4m1ahtmzj/SampleScene.babylon?dl=0
-
-    // SceneLoader.ImportMeshAsync('', 'https://models.babylonjs.com/Demos/shaderBall/', 'BabylonShaderBall_Simple.gltf', scene).then(() => {})
-    SceneLoader.ImportMeshAsync('', '/', 'SampleScene2.babylon', scene)
+    //https://dl.dropbox.com/s/pt0hlu4m1ahtmzj/SampleScene.babylon?dl=0
+    SceneLoader.ImportMeshAsync('', '/', 'SampleScene.babylon', scene)
       .then(() => {
-        // console.log('result', result)
-        // for (let i = 0; i < result!.meshes!.length; i++) {
-        //   let meshes = result.meshes
-        //   console.log('MeshName is: ', meshes[i].name)
-        // }
         setIsModalLoaded(true)
-        //Rotate on Z
-        joint_0 = scene.getMeshByName('Joint1')
-        // joint_0!.rotation!.y = 1
-        // let quaternion = Quaternion.RotationAxis(new Vector3(0, 1, 0), 3.14)
-        // joint_0!.rotationQuaternion = quaternion
-        //Rotate on Y
-        joint_1 = scene.getMeshByName('Joint2')
-        // console.log('joint_1', joint_1)
-        //Rotate on z
-        joint_2 = scene.getMeshByName('Joint3')
+        joint_0 = scene.getMeshByName('Joint0')
+        joint_1 = scene.getMeshByName('Joint1')
+        joint_2 = scene.getMeshByName('Joint2')
+        joint_3 = scene.getMeshByName('Joint3')
+        joint_4 = scene.getMeshByName('Joint4')
+        joint_5 = scene.getMeshByName('Joint5')
+        joint_6 = scene.getMeshByName('Joint6')
+        joint_7 = scene.getMeshByName('Joint7')
+        joint_8 = scene.getMeshByName('Joint8')
 
-        //Rotate on Y
-        joint_3 = scene.getMeshByName('Joint4')
+        console.log('joint_0', joint_0)
+        var mat_joint1 = new StandardMaterial('mat', scene)
+        mat_joint1.diffuseColor = Color3.Green()
 
-        //Rotate on Z
-        joint_4 = scene.getMeshByName('Joint5')
+        var mat_joint0 = new StandardMaterial('mat', scene)
+        mat_joint0.diffuseColor = Color3.Red()
 
-        //Rotate on z
-        joint_5 = scene.getMeshByName('Joint6')
-        let joint_7 = scene.getMeshByName('Joint7')
-        let joint_8 = scene.getMeshByName('Joint8')
+        var mat_joint2 = new StandardMaterial('mat', scene)
+        mat_joint2.diffuseColor = Color3.Blue()
 
-        joint_0!.setPivotPoint(new Vector3(0, 0, 0))
-        console.log(scene, 'joint_0', joint_0)
-        console.log('joint_1', joint_1)
-        console.log('joint_2', joint_2)
-        console.log('joint_3', joint_3)
-        console.log('joint_4', joint_4)
-        console.log('joint_5', joint_5)
-        console.log('joint_7', joint_7)
-        console.log('joint_8', joint_8)
+        var mat_joint3 = new StandardMaterial('mat', scene)
+        mat_joint3.diffuseColor = Color3.Yellow()
 
-        // var mat_joint1 = new StandardMaterial('mat', scene)
-        // mat_joint1.diffuseColor = Color3.Green()
-        // joint_1!.material = mat_joint1
+        var mat_joint4 = new StandardMaterial('mat', scene)
+        mat_joint4.diffuseColor = Color3.Red()
 
-        // var mat_joint0 = new StandardMaterial('mat', scene)
-        // mat_joint0.diffuseColor = Color3.Red()
-        // joint_0!.material = mat_joint0
+        var mat_joint5 = new StandardMaterial('mat', scene)
+        mat_joint5.diffuseColor = Color3.Blue()
 
-        // var mat_joint2 = new StandardMaterial('mat', scene)
-        // mat_joint2.diffuseColor = Color3.Blue()
-        // joint_2!.material = mat_joint2
+        var mat_joint6 = new StandardMaterial('mat', scene)
+        mat_joint6.diffuseColor = Color3.Magenta()
 
-        // var mat_joint3 = new StandardMaterial('mat', scene)
-        // mat_joint3.diffuseColor = Color3.Yellow()
-        // joint_3!.material = mat_joint3
-
-        // var mat_joint4 = new StandardMaterial('mat', scene)
-        // mat_joint4.diffuseColor = Color3.Green()
-        // joint_4!.material = mat_joint4
-
-        // var mat_joint5 = new StandardMaterial('mat', scene)
-        // mat_joint5.diffuseColor = Color3.Blue()
-        // joint_5!.material = mat_joint5
-
-        // var mat_joint7 = new StandardMaterial('mat', scene)
-        // mat_joint7.diffuseColor = Color3.Magenta()
-        // joint_7!.material = mat_joint7
-
-        // var mat_joint8 = new StandardMaterial('mat', scene)
-        // mat_joint8.diffuseColor = Color3.White()
-        // joint_8!.material = mat_joint8
+        var mat_joint7 = new StandardMaterial('mat', scene)
+        mat_joint7.diffuseColor = Color3.White()
         // Get Gripper Meshes
-        gripper_Joint_Inner_Left = scene.getMeshByName('polySurface1')
-        gripper_Joint_Outer_Left = scene.getMeshByName('polySurface2')
-        gripper_Joint_Inner_Right = scene.getMeshByName('polySurface3')
-        gripper_Joint_Outer_Right = scene.getMeshByName('polySurface4')
-        gripper_Tip_Left = scene.getMeshByName('polySurface5')
-        gripper_Tip_Right = scene.getMeshByName('polySurface6')
-        // let polySurface7 = scene.getMeshByName('polySurface7')
-        // let polySurface8 = scene.getMeshByName('polySurface8')
-
-        // gripper_Joint_Inner_Left!.material = mat_joint7
-        // gripper_Joint_Outer_Left!.material = mat_joint5
-        // gripper_Joint_Inner_Right!.material = mat_joint4
-        // gripper_Joint_Outer_Right!.material = mat_joint3
-        // gripper_Tip_Left!.material = mat_joint2
-        // gripper_Tip_Right!.material = mat_joint1
-        // polySurface7!.material = mat_joint0
-        // polySurface8!.material = mat_joint8
-        setJointPosition(0, 0, 0, 0, 0, 0)
-        // setGripperOpenSize(100)
+        gripper_Joint_Inner_Left = scene.getMeshByName('gripper_Joint_Inner_Left')
+        gripper_Joint_Outer_Left = scene.getMeshByName('gripper_Joint_Outer_Left')
+        gripper_Joint_Inner_Right = scene.getMeshByName('gripper_Joint_Inner_Right')
+        gripper_Joint_Outer_Right = scene.getMeshByName('gripper_Joint_Outer_Right')
+        gripper_Tip_Left = scene.getMeshByName('gripper_Tip_Left')
+        gripper_Tip_Right = scene.getMeshByName('gripper_Tip_Right')
+        setJointPosition(0, 0, 0, 0, 0, 0, 0, 0, 0)
+        setGripperOpenSize(60)
 
         // let subMeshes = result!.meshes
         // for (let i = 0; i < subMeshes.length; i++) {
@@ -465,10 +414,6 @@ const VisulizerComponent = ({
         camera2.detachControl(canvas)
       }
     }
-    // scene.onPointerUp = function(ev: PointerEvent, pickResult: PickingInfo | null) {
-    //   console.log(pickResult, 'pointer up', ev)
-    // }
-
     //Check click on the scene and if any box face is clicked rotate the ground to that position
     scene.onPointerUp = function(ev: PointerEvent, pickResult: PickingInfo | null) {
       // console.log('pickResult', ev)
@@ -477,48 +422,37 @@ const VisulizerComponent = ({
         if (pickResult!.pickedMesh && pickResult!.pickedMesh!.id === 'box') {
           let face = Math.floor(pickResult.faceId / 2)
           if (face === 0) {
-            // setCameraPosition(Math.PI * 0.5, Math.PI / 2, camera);
-            // setSecondCameraPosition(Math.PI * 0.5, Math.PI / 2, camera2);
-            spinTo('alpha', -Math.PI * 1.5, 100, camera)
-            spinTo('beta', Math.PI * 0.5, 100, camera)
-            spinTo('alpha', -Math.PI * 1.5, 100, camera2)
-            spinTo('beta', Math.PI * 0.5, 100, camera2)
+            spinTo('alpha', Math.PI / 2, 100, camera)
+            spinTo('beta', Math.PI / 2, 100, camera)
+            spinTo('alpha', Math.PI / 2, 100, camera2)
+            spinTo('beta', Math.PI / 2, 100, camera2)
           }
           if (face === 1) {
-            // setCameraPosition(-Math.PI * 0.5, Math.PI / 2, camera);
-            // setSecondCameraPosition(-Math.PI * 0.5, Math.PI / 2, camera2);
-            spinTo('alpha', -Math.PI * 0.5, 100, camera)
-            spinTo('beta', Math.PI * 0.5, 100, camera)
-            spinTo('alpha', -Math.PI * 0.5, 100, camera2)
-            spinTo('beta', Math.PI * 0.5, 100, camera2)
+            spinTo('alpha', -Math.PI / 2, 100, camera)
+            spinTo('beta', Math.PI / 2, 100, camera)
+            spinTo('alpha', -Math.PI / 2, 100, camera2)
+            spinTo('beta', Math.PI / 2, 100, camera2)
           }
           if (face === 2) {
-            // setCameraPosition(0, Math.PI / 2, camera);
-            // setSecondCameraPosition(0, Math.PI / 2, camera2);
             spinTo('alpha', 0, 100, camera)
-            spinTo('beta', Math.PI * 0.5, 100, camera)
+            spinTo('beta', Math.PI / 2, 100, camera)
             spinTo('alpha', 0, 100, camera2)
-            spinTo('beta', Math.PI * 0.5, 100, camera2)
+            spinTo('beta', Math.PI / 2, 100, camera2)
           }
           if (face === 3) {
-            // setCameraPosition(-Math.PI, Math.PI / 2, camera);
-            // setSecondCameraPosition(-Math.PI, Math.PI / 2, camera2);
-            spinTo('alpha', -Math.PI, 100, camera)
-            spinTo('beta', Math.PI * 0.5, 100, camera)
-            spinTo('alpha', -Math.PI, 100, camera2)
-            spinTo('beta', Math.PI * 0.5, 100, camera2)
+            console.log(camera2.alpha, 'camera2 before', camera2.beta)
+            spinTo('alpha', Math.PI, 100, camera)
+            spinTo('beta', Math.PI / 2, 100, camera)
+            spinTo('alpha', Math.PI, 100, camera2)
+            spinTo('beta', Math.PI / 2, 100, camera2)
           }
           if (face === 4) {
-            // setCameraPosition(-Math.PI * 0.5, 0, camera);
-            // setSecondCameraPosition(-Math.PI * 0.5, 0, camera2);
             spinTo('alpha', -Math.PI * 0.5, 100, camera)
             spinTo('beta', 0, 100, camera)
             spinTo('alpha', -Math.PI * 0.5, 100, camera2)
             spinTo('beta', 0, 100, camera2)
           }
           if (face === 5) {
-            // setCameraPosition(-Math.PI * 0.5, Math.PI, camera);
-            // setSecondCameraPosition(-Math.PI * 0.5, Math.PI, camera2);
             spinTo('alpha', -Math.PI * 0.5, 100, camera)
             spinTo('beta', Math.PI, 100, camera)
             spinTo('alpha', -Math.PI * 0.5, 100, camera2)
@@ -529,7 +463,6 @@ const VisulizerComponent = ({
     }
   }
   const spinTo = (whichprop: any, targetval: any, speed: number, camera: ArcRotateCamera) => {
-    // console.log('gherssss')
     var ease = new CubicEase()
     ease.setEasingMode(EasingFunction.EASINGMODE_EASEINOUT)
     Animation.CreateAndStartAnimation('at4', camera, whichprop, speed, 120, camera[whichprop], targetval, 0, ease)
@@ -543,8 +476,28 @@ const VisulizerComponent = ({
    * Will run on every frame render.  We are spinning the box on y-axis.
    */
   useEffect(() => {
-    setJointPosition(joint0Radians, joint1Radians, joint2Radians, joint3Radians, joint4Radians, joint5Radians)
-  }, [joint0Radians, joint1Radians, joint2Radians, joint3Radians, joint4Radians, joint5Radians])
+    setJointPosition(
+      joint0Radians,
+      joint1Radians,
+      joint2Radians,
+      joint3Radians,
+      joint4Radians,
+      joint5Radians,
+      joint6Radians,
+      joint7Radians,
+      joint8Radians
+    )
+  }, [
+    joint0Radians,
+    joint1Radians,
+    joint2Radians,
+    joint3Radians,
+    joint4Radians,
+    joint5Radians,
+    joint6Radians,
+    joint7Radians,
+    joint8Radians
+  ])
   useEffect(() => {
     if (scene) {
       if (colorValue === 'white') {

@@ -11,6 +11,10 @@ const Visulizer = () => {
   const [joint3, setJoint3] = useState(0)
   const [joint4, setJoint4] = useState(0)
   const [joint5, setJoint5] = useState(0)
+  const [joint6, setJoint6] = useState(0)
+  const [joint7, setJoint7] = useState(0)
+  const [joint8, setJoint8] = useState(0)
+
   const [colorValue, setColorValue] = useState('white')
   const [gripperSize, setGripperSize] = useState(0)
   const [backgroundColor, setBackgroundColor] = useState('#ffffff')
@@ -22,6 +26,9 @@ const Visulizer = () => {
     joint3: number,
     joint4: number,
     joint5: number,
+    joint6: number,
+    joint7: number,
+    joint8: number,
     colorValue: string,
     gripperSize: number,
     backgroundColor: string
@@ -32,6 +39,9 @@ const Visulizer = () => {
     setJoint3(joint3)
     setJoint4(joint4)
     setJoint5(joint5)
+    setJoint6(joint6)
+    setJoint7(joint7)
+    setJoint8(joint8)
     setColorValue(colorValue)
     setGripperSize(gripperSize)
     setBackgroundColor(backgroundColor)
@@ -47,6 +57,9 @@ const Visulizer = () => {
           joint3Radians={joint3}
           joint4Radians={joint4}
           joint5Radians={joint5}
+          joint6Radians={joint6}
+          joint7Radians={joint7}
+          joint8Radians={joint8}
           colorValue={colorValue}
           gripperSize={gripperSize}
           backgroundColor={backgroundColor}
@@ -61,10 +74,28 @@ const Visulizer = () => {
             joint3: number,
             joint4: number,
             joint5: number,
+            joint6: number,
+            joint7: number,
+            joint8: number,
             colorValue: string,
             gripperSize: number,
             backgroundColor: string
-          ) => changeValuesInVisulizer(joint0, joint1, joint2, joint3, joint4, joint5, colorValue, gripperSize, backgroundColor)}
+          ) =>
+            changeValuesInVisulizer(
+              joint0,
+              joint1,
+              joint2,
+              joint3,
+              joint4,
+              joint5,
+              joint6,
+              joint7,
+              joint8,
+              colorValue,
+              gripperSize,
+              backgroundColor
+            )
+          }
         />
       </SplitPane>
     </SplitPane>

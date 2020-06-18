@@ -5,9 +5,21 @@ import './index.css'
 
 interface AppProps {
   //code related to your props goes here
-  changeValuesInVisulizer(joint0: number, joint1: number, joint2: number, joint3: number, joint4: number, joint5: number, colorValue: string, gripperSize: number, backgroundColor: string): any
+  changeValuesInVisulizer(
+    joint0: number,
+    joint1: number,
+    joint2: number,
+    joint3: number,
+    joint4: number,
+    joint5: number,
+    joint6: number,
+    joint7: number,
+    joint8: number,
+    colorValue: string,
+    gripperSize: number,
+    backgroundColor: string
+  ): any
 }
-
 
 interface AppState {
   joint0: number
@@ -16,6 +28,9 @@ interface AppState {
   joint3: number
   joint4: number
   joint5: number
+  joint6: number
+  joint7: number
+  joint8: number
   colorValue: number
   backgroundColor: any
   gripperSize: number
@@ -33,10 +48,13 @@ class ApiForm extends React.Component<AppProps, AppState> {
       joint3: 0,
       joint4: 0,
       joint5: 0,
+      joint6: 0,
+      joint7: 0,
+      joint8: 0,
       colorValue: 0,
       backgroundColor: '#ffffff',
       gripperSize: 0,
-      pickerVisible: false,
+      pickerVisible: false
     }
   }
   // handleClick = (e: any) => {
@@ -66,6 +84,9 @@ class ApiForm extends React.Component<AppProps, AppState> {
         this.state.joint3,
         this.state.joint4,
         this.state.joint5,
+        this.state.joint6,
+        this.state.joint7,
+        this.state.joint8,
         this.state.colorValue ? 'black' : 'white',
         this.state.gripperSize,
         this.state.backgroundColor
@@ -82,6 +103,9 @@ class ApiForm extends React.Component<AppProps, AppState> {
         this.state.joint3,
         this.state.joint4,
         this.state.joint5,
+        this.state.joint6,
+        this.state.joint7,
+        this.state.joint8,
         this.state.colorValue ? 'black' : 'white',
         this.state.gripperSize,
         this.state.backgroundColor
@@ -98,6 +122,9 @@ class ApiForm extends React.Component<AppProps, AppState> {
         this.state.joint3,
         this.state.joint4,
         this.state.joint5,
+        this.state.joint6,
+        this.state.joint7,
+        this.state.joint8,
         this.state.colorValue ? 'black' : 'white',
         this.state.gripperSize,
         this.state.backgroundColor
@@ -110,6 +137,14 @@ class ApiForm extends React.Component<AppProps, AppState> {
       <div style={{ backgroundColor: 'white', scrollBehavior: 'auto', overflowY: 'auto', minHeight: '50%' }}>
         <form noValidate autoComplete="off" className="input-form">
           <TextField
+            id="outlined-basic"
+            name={'gripperSize'}
+            label="Gripper Open Percent"
+            variant="outlined"
+            type={'number'}
+            onChange={this.onChangeValue}
+          />
+          {/* <TextField
             classes={{
               root: 'input-box'
             }}
@@ -120,7 +155,7 @@ class ApiForm extends React.Component<AppProps, AppState> {
             variant="outlined"
             type={'number'}
             onChange={this.onChangeValue}
-          />
+          /> */}
           <TextField
             id="outlined-basic"
             name={'joint1'}
@@ -163,29 +198,52 @@ class ApiForm extends React.Component<AppProps, AppState> {
           />
           <TextField
             id="outlined-basic"
-            name={'gripperSize'}
-            label="Gripper Open Percent"
+            name={'joint6'}
+            label="Join 6 Radians"
             variant="outlined"
             type={'number'}
             onChange={this.onChangeValue}
           />
-          <RadioGroup aria-label="position" name="colorValue" value={this.state.colorValue} onChange={(event) => this.handleValueChange(Number(event.target.value))} row>
+          <TextField
+            id="outlined-basic"
+            name={'joint7'}
+            label="Join 7 Radians"
+            variant="outlined"
+            type={'number'}
+            onChange={this.onChangeValue}
+          />
+          <TextField
+            id="outlined-basic"
+            name={'joint8'}
+            label="Join 8 Radians"
+            variant="outlined"
+            type={'number'}
+            onChange={this.onChangeValue}
+          />
+          <RadioGroup
+            aria-label="position"
+            name="colorValue"
+            value={this.state.colorValue}
+            onChange={event => this.handleValueChange(Number(event.target.value))}
+            row
+          >
             <label>{'Toggle Color '}</label>
-            {
-              [{ label: 'White', value: 0 }, { label: 'Black', value: 1 }].map((item, index) => {
-                return (
-                  <FormControlLabel
-                    checked={index === this.state.colorValue ? true : false}
-                    key={item.value}
-                    value={item.value}
-                    control={<Radio color="primary" />}
-                    label={item.label ? item.label : ''}
-                    className="form-group"
-                    labelPlacement="end"
-                  />
-                )
-              })
-            }
+            {[
+              { label: 'White', value: 0 },
+              { label: 'Black', value: 1 }
+            ].map((item, index) => {
+              return (
+                <FormControlLabel
+                  checked={index === this.state.colorValue ? true : false}
+                  key={item.value}
+                  value={item.value}
+                  control={<Radio color="primary" />}
+                  label={item.label ? item.label : ''}
+                  className="form-group"
+                  labelPlacement="end"
+                />
+              )
+            })}
           </RadioGroup>
           <div
             // ref={this.palletRef}
@@ -197,18 +255,18 @@ class ApiForm extends React.Component<AppProps, AppState> {
               <span
                 className={'color-pallete'}
                 onClick={() => this.setState({ pickerVisible: !this.state.pickerVisible })}
-                style={{ backgroundColor: this.state.backgroundColor }}>
-                &nbsp;</span>
+                style={{ backgroundColor: this.state.backgroundColor }}
+              >
+                &nbsp;
+              </span>
               <label>{this.state.backgroundColor}</label>
             </div>
           </div>
-          {this.state.pickerVisible && <SketchPicker
-            color={this.state.backgroundColor}
-            onChangeComplete={(color) => this.onBackgroundChange(color)}
-          />}
-
+          {this.state.pickerVisible && (
+            <SketchPicker color={this.state.backgroundColor} onChangeComplete={color => this.onBackgroundChange(color)} />
+          )}
         </form>
-      </div >
+      </div>
     )
   }
 }
