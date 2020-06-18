@@ -220,6 +220,12 @@ const normalize = css`
   legend {
     padding: 0;
   }
+  label {
+    font-size: 14px;
+    margin-bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 
   /**
   * Add the correct vertical alignment in Chrome and Firefox.

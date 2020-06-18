@@ -47,9 +47,16 @@
   background-color: white;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 5px 0px;
   border-top: 1px solid;
   height: 100%;
+}
+.input-form >div {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+.MuiFormLabel-root .MuiInputLabel-root .MuiInputLabel-formControl .MuiInputLabel-animated .MuiInputLabel-outlined .Mui-focused {
+    font-size: 14px;
 }
 
 .input-box {
@@ -57,23 +64,8 @@
   margin-top:5px;
   margin-bottom:5px;
 }
-
-.MuiInputBase-root .MuiOutlinedInput-root .MuiInputBase-formControl{
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.MuiInputBase-input .MuiOutlinedInput-input{
-  padding:5px!important;
-}
-
-.PrivateNotchedOutline-legendLabelled-3 > span{
-  font-size: xx-small;
-}
 .color-picker-container {
     padding: 10px;
-    border-color: black;
-    border: 1px solid #c4c4c4;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -81,9 +73,10 @@
 .background-indicator{
   background-color: #fafafa;
   border:1px solid #ededed;
-  width: 85%;
+  width: 80%;
   display:flex;
-  padding: 10px;
+  align-items: center;
+  padding: 5px;
   flex-direction:row;
   justify-content: space-between;
 }
@@ -92,4 +85,55 @@
     border: 1px solid #ededed;
     height: 20px;
     border-radius: 10px;
+}
+.css-glamorous-div--jgd0xx {
+    overflow-y: auto;
+}
+.MuiOutlinedInput-root{
+  margin:10px!important;
+}
+.MuiFormGroup-root.MuiFormGroup-row {
+    padding: 5px 10px;
+}
+.MuiOutlinedInput-input {
+    padding: 10px!important;
+    font-size: 14px!important;
+}
+.form-group{
+  margin-bottom: 0!important;
+}
+.MuiFormGroup-row {
+    align-items: center!important;
+}
+label.MuiFormControlLabel-root.form-group {
+    margin-left: 20px;
+}
+label#outlined-basic-label {
+    font-size: 14px!important;
+}
+.input-form {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0px;
+    border-top: 1px solid;
+    height: 100%;
+}
+.pallete{
+  position: absolute;
+  background-color: white;
+  z-index: 10;
+}
+.orientation{
+  max-width: 50%;
+  border: 0px;
+  align-self: center;
+  font-size: 12px;
+  padding: 4px;
+}
+span.MuiTypography-root.MuiFormControlLabel-label.MuiTypography-body1 {
+    font-size: 14px;
+}
+.MuiInputLabel-outlined.MuiInputLabel-shrink {
+    transform: translate(30px, 5px) scale(0.75)!important;
 }

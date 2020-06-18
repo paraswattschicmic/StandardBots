@@ -4,7 +4,7 @@ const globals = css`
   body {
     width: 100%;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   a {

@@ -26,7 +26,6 @@ const SideMenuItem: React.SFC<SideMenuItemProps> = ({ depthStep = 10, depth = 0,
   const [collapsed, setCollapsed] = React.useState(true)
   const { label, items, Icon } = item
   const location = useLocation()
-  console.log('location', location)
   useEffect(() => {
     setCollapsed(expanded)
   })
@@ -48,8 +47,8 @@ const SideMenuItem: React.SFC<SideMenuItemProps> = ({ depthStep = 10, depth = 0,
     expandIcon = !collapsed ? (
       <ArrowDropUpIcon className={'sidebar-item-expand-arrow' + ' sidebar-item-expand-arrow-expanded'} />
     ) : (
-      <ArrowDropDownIcon className="sidebar-item-expand-arrow" />
-    )
+        <ArrowDropDownIcon className="sidebar-item-expand-arrow" />
+      )
   }
 
   return (
@@ -85,8 +84,8 @@ const SideMenuItem: React.SFC<SideMenuItemProps> = ({ depthStep = 10, depth = 0,
                     {subItem.name === 'divider' ? (
                       <Divider style={{ margin: '6px 0' }} />
                     ) : (
-                      <SideMenuItem depth={depth + 1} depthStep={depthStep} item={subItem} expanded={expanded} />
-                    )}
+                        <SideMenuItem depth={depth + 1} depthStep={depthStep} item={subItem} expanded={expanded} />
+                      )}
                   </React.Fragment>
                 ))}
               </List>
@@ -94,38 +93,38 @@ const SideMenuItem: React.SFC<SideMenuItemProps> = ({ depthStep = 10, depth = 0,
           </Collapse>
         </NavLink>
       ) : (
-        <>
-          <ListItem className="sidebar-item" onClick={onClickFunction} button dense {...rest}>
-            {expandIcon}
-            <div style={{ paddingLeft: depth * depthStep }} className="sidebar-item-content">
-              {Icon && (
-                <Icon
-                  className="sidebar-item-icon"
-                  classes={{
-                    root: 'icon'
-                  }}
-                />
-              )}
-              <div className="sidebar-item-text">{label}</div>
-            </div>
-          </ListItem>
-          <Collapse in={!collapsed} timeout="auto" unmountOnExit>
-            {Array.isArray(items) ? (
-              <List disablePadding dense>
-                {items.map((subItem, index) => (
-                  <React.Fragment key={`${subItem.name}${index}`}>
-                    {subItem.name === 'divider' ? (
-                      <Divider style={{ margin: '6px 0' }} />
-                    ) : (
-                      <SideMenuItem depth={depth + 1} depthStep={depthStep} item={subItem} expanded={expanded} />
-                    )}
-                  </React.Fragment>
-                ))}
-              </List>
-            ) : null}
-          </Collapse>
-        </>
-      )}
+          <>
+            <ListItem className="sidebar-item" onClick={onClickFunction} button dense {...rest}>
+              {expandIcon}
+              <div style={{ paddingLeft: depth * depthStep }} className="sidebar-item-content">
+                {Icon && (
+                  <Icon
+                    className="sidebar-item-icon"
+                    classes={{
+                      root: 'icon'
+                    }}
+                  />
+                )}
+                <div className="sidebar-item-text">{label}</div>
+              </div>
+            </ListItem>
+            <Collapse in={!collapsed} timeout="auto" unmountOnExit>
+              {Array.isArray(items) ? (
+                <List disablePadding dense>
+                  {items.map((subItem, index) => (
+                    <React.Fragment key={`${subItem.name}${index}`}>
+                      {subItem.name === 'divider' ? (
+                        <Divider style={{ margin: '6px 0' }} />
+                      ) : (
+                          <SideMenuItem depth={depth + 1} depthStep={depthStep} item={subItem} expanded={expanded} />
+                        )}
+                    </React.Fragment>
+                  ))}
+                </List>
+              ) : null}
+            </Collapse>
+          </>
+        )}
     </>
   )
 }
@@ -138,8 +137,8 @@ const SideMenu: React.SFC<SideMenuProps> = ({ items, depthStep = 10, depth = 0, 
             {sidebarItem.name === 'divider' ? (
               <Divider style={{ margin: '6px 0' }} />
             ) : (
-              <SideMenuItem depthStep={depthStep} depth={depth} expanded={expanded} item={sidebarItem} />
-            )}
+                <SideMenuItem depthStep={depthStep} depth={depth} expanded={expanded} item={sidebarItem} />
+              )}
           </React.Fragment>
         ))}
       </List>

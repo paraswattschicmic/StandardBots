@@ -18,6 +18,7 @@ const Visulizer = () => {
   const [colorValue, setColorValue] = useState('white')
   const [gripperSize, setGripperSize] = useState(0)
   const [backgroundColor, setBackgroundColor] = useState('#ffffff')
+  const [horizontalSplit, setHorizontalSplit] = useState(true)
 
   const changeValuesInVisulizer = (
     joint0: number,
@@ -31,7 +32,8 @@ const Visulizer = () => {
     joint8: number,
     colorValue: string,
     gripperSize: number,
-    backgroundColor: string
+    backgroundColor: string,
+    horizontalSplit: boolean
   ) => {
     setJoint0(joint0)
     setJoint1(joint1)
@@ -45,11 +47,12 @@ const Visulizer = () => {
     setColorValue(colorValue)
     setGripperSize(gripperSize)
     setBackgroundColor(backgroundColor)
+    setHorizontalSplit(horizontalSplit)
   }
   return (
     // <div>
-    <SplitPane split="horizontal" size={'100%'} maxSize={'100%'}>
-      <SplitPane size={'50%'} maxSize={'50%'} minSize={'30%'}>
+    <SplitPane split={horizontalSplit ? 'horizontal' : 'vertical'} size={'100%'} maxSize={'100%'}>
+      <SplitPane size={'70%'} maxSize={'70%'} minSize={'30%'}>
         <VisulizerComponent
           joint0Radians={joint0}
           joint1Radians={joint1}
@@ -65,7 +68,7 @@ const Visulizer = () => {
           backgroundColor={backgroundColor}
         />
       </SplitPane>
-      <SplitPane size={'50%'} maxSize={'70%'} minSize={'50%'}>
+      <SplitPane size={'30%'} maxSize={'70%'} minSize={'30%'}>
         <ApiForm
           changeValuesInVisulizer={(
             joint0: number,
@@ -79,7 +82,8 @@ const Visulizer = () => {
             joint8: number,
             colorValue: string,
             gripperSize: number,
-            backgroundColor: string
+            backgroundColor: string,
+            horizontalSplit: boolean
           ) =>
             changeValuesInVisulizer(
               joint0,
@@ -93,7 +97,8 @@ const Visulizer = () => {
               joint8,
               colorValue,
               gripperSize,
-              backgroundColor
+              backgroundColor,
+              horizontalSplit
             )
           }
         />

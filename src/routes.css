@@ -1,1 +1,28 @@
-
+.row.main_section {
+    width: 100%;
+    align-self: center;
+    height: calc(100vh - 54px);
+}
+.col-md-9.p-0 {
+    height: calc(100vh - 54px);
+}
+.css-glamorous-div--hvdu2p, [data-css-glamorous-div--hvdu2p] {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    height: calc(100vh - 54px);
+    flex-direction: column;
+    flex: 1;
+    outline: none;
+    overflow: hidden;
+    user-select: text;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -webkit-flex: 1;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
