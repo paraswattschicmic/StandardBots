@@ -64,7 +64,12 @@ export const SceneComponent = (props: any) => {
     }
     return () => {}
   }, [scene])
-
+  const enableScroll = (event: any) => {
+    document.removeEventListener('wheel', event.preventDefault, false)
+  }
+  const disableScroll = (event: any) => {
+    document.removeEventListener('wheel', event.preventDefault, true)
+  }
   useEffect(() => {
     if (!loaded && reactCanvas.current) {
       setLoaded(true)
@@ -95,7 +100,7 @@ export const SceneComponent = (props: any) => {
   }, [])
 
   return (
-    <div className="row">
+    <div className="row" onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
       <div className="container-fluid">
         <canvas style={{ width: '100%', height: '100%' }} ref={reactCanvas} {...rest} />
         {/* {!isModalLoaded ? (
@@ -235,7 +240,7 @@ const VisulizerComponent = ({
     scene.imageProcessingConfiguration.toneMappingEnabled = true
     //Initialize the first camera
     //-Math.PI * 0.5, 1.1903662489867926
-    var camera = new ArcRotateCamera('Camera', -Math.PI * 0.5, 1.1903662489867926, 50, Vector3.Zero(), scene)
+    var camera = new ArcRotateCamera('Camera', 15.017823686086821, 1.036668602381972, 50, Vector3.Zero(), scene)
 
     // Import the babylon modal
     //https://dl.dropbox.com/s/pt0hlu4m1ahtmzj/SampleScene.babylon?dl=0
@@ -335,7 +340,7 @@ const VisulizerComponent = ({
     scene.activeCameras.push(camera)
 
     //Initialize the Second camera
-    var camera2 = new ArcRotateCamera('Camera2', -Math.PI * 0.5, 1.1903662489867926, 12, Vector3.Zero(), scene)
+    var camera2 = new ArcRotateCamera('Camera2', 15.017823686086821, 1.036668602381972, 12, Vector3.Zero(), scene)
     camera2.lowerRadiusLimit = camera2.upperRadiusLimit = camera2.radius
     //Set to use only left mouse button
     ;(camera2.inputs.attached.pointers as ArcRotateCameraPointersInput).buttons = [0]
@@ -421,29 +426,47 @@ const VisulizerComponent = ({
       if (pickResult && pickResult.hit) {
         if (pickResult!.pickedMesh && pickResult!.pickedMesh!.id === 'box') {
           let face = Math.floor(pickResult.faceId / 2)
+          let sign = Math.sign(camera2.alpha)
+          let camera2Alpha = Math.abs(camera2.alpha)
+          let factor = camera2Alpha / Math.PI
+          // let cameraAlpha = Math.abs(camera.alpha)
           if (face === 0) {
+            console.log(camera2.alpha, 'camera2 before', camera2.beta)
+            console.log('camera2.alpha % Math.PI', camera2.alpha % Math.PI)
+            camera2.alpha = camera2.alpha % Math.PI
+            camera.alpha = camera.alpha % Math.PI
+            console.log(camera.alpha, 'camera2', camera2.alpha)
             spinTo('alpha', Math.PI / 2, 100, camera)
             spinTo('beta', Math.PI / 2, 100, camera)
             spinTo('alpha', Math.PI / 2, 100, camera2)
             spinTo('beta', Math.PI / 2, 100, camera2)
           }
           if (face === 1) {
+            console.log(camera2.alpha, 'camera2 before', camera2.beta)
+            console.log('camera2.alpha % Math.PI', camera2.alpha % Math.PI)
+            camera2.alpha = camera2.alpha % Math.PI
+            camera.alpha = camera.alpha % Math.PI
+            console.log(camera.alpha, 'camera2', camera2.alpha)
             spinTo('alpha', -Math.PI / 2, 100, camera)
             spinTo('beta', Math.PI / 2, 100, camera)
             spinTo('alpha', -Math.PI / 2, 100, camera2)
             spinTo('beta', Math.PI / 2, 100, camera2)
           }
           if (face === 2) {
-            spinTo('alpha', 0, 100, camera)
+            camera2.alpha = camera2.alpha % (Math.PI / 2)
+            camera.alpha = camera.alpha % (Math.PI / 2)
+            spinTo('alpha', -0, 100, camera)
             spinTo('beta', Math.PI / 2, 100, camera)
-            spinTo('alpha', 0, 100, camera2)
+            spinTo('alpha', -0, 100, camera2)
             spinTo('beta', Math.PI / 2, 100, camera2)
           }
           if (face === 3) {
-            console.log(camera2.alpha, 'camera2 before', camera2.beta)
-            spinTo('alpha', Math.PI, 100, camera)
+            // console.log(camera2.alpha, 'camera2 before', camera2.beta)
+            // console.log(Math.ceil(camera2.alpha / Math.PI), 'camera2.alpha % Math.PI', camera2.alpha % Math.PI)
+
+            spinTo('alpha', sign === -1 ? -Math.PI * factor : Math.PI * factor, 100, camera)
             spinTo('beta', Math.PI / 2, 100, camera)
-            spinTo('alpha', Math.PI, 100, camera2)
+            spinTo('alpha', sign === -1 ? -Math.PI * factor : Math.PI * factor, 100, camera2)
             spinTo('beta', Math.PI / 2, 100, camera2)
           }
           if (face === 4) {
