@@ -313,7 +313,7 @@ const VisulizerComponent = ({
       return
     }
     if (canvas) {
-      canvas.addEventListener("mouseover", function (event) {
+      canvas.addEventListener("mouseover", function () {
         document!.getElementById("canvasId")!.onwheel = (event) => {
           event.preventDefault()
         }
