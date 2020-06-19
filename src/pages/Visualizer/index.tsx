@@ -52,6 +52,7 @@ const Visulizer = () => {
           joint5Radians={joint5}
           colorValue={colorValue}
           gripperSize={gripperSize}
+          orientation={horizontalSplit}
           backgroundColor={backgroundColor}
         />
       </SplitPane>

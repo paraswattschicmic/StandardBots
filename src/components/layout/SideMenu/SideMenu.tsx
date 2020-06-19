@@ -28,7 +28,7 @@ const SideMenuItem: React.SFC<SideMenuItemProps> = ({ depthStep = 10, depth = 0,
   const location = useLocation()
   useEffect(() => {
     setCollapsed(expanded)
-  })
+  }, [])
 
   const toggleCollapse = () => {
     setCollapsed(prevValue => !prevValue)

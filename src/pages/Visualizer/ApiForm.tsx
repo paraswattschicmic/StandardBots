@@ -221,21 +221,23 @@ class ApiForm extends React.Component<AppProps, AppState> {
           />
           <RadioGroup aria-label="position" name="colorValue" value={this.state.colorValue} onChange={(event) => this.handleValueChange(Number(event.target.value))} row>
             <label>{'Toggle Color '}</label>
-            {
-              [{ label: 'White', value: 0 }, { label: 'Black', value: 1 }].map((item, index) => {
-                return (
-                  <FormControlLabel
-                    checked={index === this.state.colorValue ? true : false}
-                    key={item.value}
-                    value={item.value}
-                    control={<Radio color="primary" />}
-                    label={item.label ? item.label : ''}
-                    className="form-group"
-                    labelPlacement="end"
-                  />
-                )
-              })
-            }
+            <div className={'toggle-wrap'}>
+              {
+                [{ label: 'White', value: 0 }, { label: 'Black', value: 1 }].map((item, index) => {
+                  return (
+                    <FormControlLabel
+                      checked={index === this.state.colorValue ? true : false}
+                      key={item.value}
+                      value={item.value}
+                      control={<Radio color="primary" />}
+                      label={item.label ? item.label : ''}
+                      className="form-group"
+                      labelPlacement="end"
+                    />
+                  )
+                })
+              }
+            </div>
           </RadioGroup>
           <div
             ref={this.palletRef}

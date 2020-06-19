@@ -100,7 +100,7 @@ export const SceneComponent = (props: any) => {
   }, [])
 
   return (
-    <div className="row">
+    <div className="row" style={{ height: props.orientation ? 'auto' : '100%', overflowY: props.orientation ? 'auto' : 'hidden' }}>
       <div className="container-fluid">
         <canvas id="canvasId" style={{ width: '100%', height: '100%' }} ref={reactCanvas} {...rest} />
         {/* {!isModalLoaded ? (
@@ -125,6 +125,7 @@ export interface VisulizerComponentProps {
   colorValue: string
   backgroundColor: string
   gripperSize: number
+  orientation: boolean
 }
 
 
@@ -138,7 +139,8 @@ const VisulizerComponent = ({
   joint5Radians,
   colorValue,
   backgroundColor,
-  gripperSize
+  gripperSize,
+  orientation
 }: VisulizerComponentProps) => {
   const [isModalLoaded, setIsModalLoaded] = useState(false)
   const [scene, setScene] = useState<Scene | null>(null)
@@ -497,7 +499,7 @@ const VisulizerComponent = ({
     Database.IDBStorageEnabled = true
   }, [])
 
-  return <SceneComponent colorValue={colorValue} antialias onSceneReady={onSceneReady} isModalLoaded={isModalLoaded} />
+  return <SceneComponent orientation={orientation} colorValue={colorValue} antialias onSceneReady={onSceneReady} isModalLoaded={isModalLoaded} />
 }
 
 export default VisulizerComponent
