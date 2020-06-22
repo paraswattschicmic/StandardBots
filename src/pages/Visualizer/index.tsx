@@ -1,20 +1,24 @@
-import React, { useState } from 'react'
-import SplitPane from 'react-split-pane'
-import VisulizerComponent from './Visualizer'
-import ApiForm from './ApiForm'
+import React, { useState } from "react";
+import SplitPane from "react-split-pane";
+import VisulizerComponent from "./Visualizer";
+import ApiForm from "./ApiForm";
 // import Split from 'react-split'
 
 const Visulizer = () => {
-  const [joint0, setJoint0] = useState(0)
-  const [joint1, setJoint1] = useState(0)
-  const [joint2, setJoint2] = useState(0)
-  const [joint3, setJoint3] = useState(0)
-  const [joint4, setJoint4] = useState(0)
-  const [joint5, setJoint5] = useState(0)
-  const [colorValue, setColorValue] = useState('white')
-  const [gripperSize, setGripperSize] = useState(0)
-  const [backgroundColor, setBackgroundColor] = useState('#ffffff')
-  const [horizontalSplit, setHorizontalSplit] = useState(true)
+  const [joint0, setJoint0] = useState(0);
+  const [joint1, setJoint1] = useState(0);
+  const [joint2, setJoint2] = useState(0);
+  const [joint3, setJoint3] = useState(0);
+  const [joint4, setJoint4] = useState(0);
+  const [joint5, setJoint5] = useState(0);
+  const [joint6, setJoint6] = useState(0);
+  const [joint7, setJoint7] = useState(0);
+  const [joint8, setJoint8] = useState(0);
+
+  const [colorValue, setColorValue] = useState("white");
+  const [gripperSize, setGripperSize] = useState(0);
+  const [backgroundColor, setBackgroundColor] = useState("#ffffff");
+  const [horizontalSplit, setHorizontalSplit] = useState(true);
 
   const changeValuesInVisulizer = (
     joint0: number,
@@ -23,26 +27,36 @@ const Visulizer = () => {
     joint3: number,
     joint4: number,
     joint5: number,
+    joint6: number,
+    joint7: number,
+    joint8: number,
     colorValue: string,
     gripperSize: number,
     backgroundColor: string,
     horizontalSplit: boolean
   ) => {
-    setJoint0(joint0)
-    setJoint1(joint1)
-    setJoint2(joint2)
-    setJoint3(joint3)
-    setJoint4(joint4)
-    setJoint5(joint5)
-    setColorValue(colorValue)
-    setGripperSize(gripperSize)
-    setBackgroundColor(backgroundColor)
-    setHorizontalSplit(horizontalSplit)
-  }
+    setJoint0(joint0);
+    setJoint1(joint1);
+    setJoint2(joint2);
+    setJoint3(joint3);
+    setJoint4(joint4);
+    setJoint5(joint5);
+    setJoint6(joint6);
+    setJoint7(joint7);
+    setJoint8(joint8);
+    setColorValue(colorValue);
+    setGripperSize(gripperSize);
+    setBackgroundColor(backgroundColor);
+    setHorizontalSplit(horizontalSplit);
+  };
   return (
     // <div>
-    <SplitPane split={horizontalSplit ? 'horizontal' : 'vertical'} size={'100%'} maxSize={'100%'}>
-      <SplitPane size={'70%'} maxSize={'70%'} minSize={'30%'}>
+    <SplitPane
+      split={horizontalSplit ? "horizontal" : "vertical"}
+      size={"100%"}
+      maxSize={"100%"}
+    >
+      <SplitPane size={"70%"} maxSize={"70%"} minSize={"30%"}>
         <VisulizerComponent
           joint0Radians={joint0}
           joint1Radians={joint1}
@@ -50,13 +64,16 @@ const Visulizer = () => {
           joint3Radians={joint3}
           joint4Radians={joint4}
           joint5Radians={joint5}
+          joint6Radians={joint6}
+          joint7Radians={joint7}
+          joint8Radians={joint8}
           colorValue={colorValue}
           gripperSize={gripperSize}
           orientation={horizontalSplit}
           backgroundColor={backgroundColor}
         />
       </SplitPane>
-      <SplitPane size={'30%'} maxSize={'70%'} minSize={'30%'}>
+      <SplitPane size={"30%"} maxSize={"70%"} minSize={"30%"}>
         <ApiForm
           changeValuesInVisulizer={(
             joint0: number,
@@ -65,16 +82,35 @@ const Visulizer = () => {
             joint3: number,
             joint4: number,
             joint5: number,
+            joint6: number,
+            joint7: number,
+            joint8: number,
             colorValue: string,
             gripperSize: number,
             backgroundColor: string,
             horizontalSplit: boolean
-          ) => changeValuesInVisulizer(joint0, joint1, joint2, joint3, joint4, joint5, colorValue, gripperSize, backgroundColor, horizontalSplit)}
+          ) =>
+            changeValuesInVisulizer(
+              joint0,
+              joint1,
+              joint2,
+              joint3,
+              joint4,
+              joint5,
+              joint6,
+              joint7,
+              joint8,
+              colorValue,
+              gripperSize,
+              backgroundColor,
+              horizontalSplit
+            )
+          }
         />
       </SplitPane>
     </SplitPane>
     // </div>
-  )
-}
+  );
+};
 
-export default Visulizer
+export default Visulizer;
