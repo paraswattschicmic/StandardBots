@@ -44,17 +44,17 @@ let joint_1: AbstractMesh | null,
   gripper_Joint_Inner_Right: AbstractMesh | null,
   gripper_Joint_Outer_Right: AbstractMesh | null,
   gripper_Tip_Left: AbstractMesh | null,
-  gripper_Tip_Right: AbstractMesh | null;
-const C2M = 0x10000000;
+  gripper_Tip_Right: AbstractMesh | null
+const C2M = 0x10000000
 export const SceneComponent = (props: any) => {
-  const reactCanvas = useRef<null | HTMLCanvasElement>(null);
+  const reactCanvas = useRef<null | HTMLCanvasElement>(null)
   const {
     antialias,
     engineOptions,
     adaptToDeviceRatio,
     sceneOptions,
     isModalLoaded,
-  } = props;
+  } = props
 
   const [loaded, setLoaded] = useState(false);
   const [scene, setScene] = useState<Scene | null>(null);
@@ -66,49 +66,49 @@ export const SceneComponent = (props: any) => {
           scene.getEngine().resize();
         }
       };
-      window.addEventListener("resize", resize);
+      window.addEventListener("resize", resize)
 
       return () => {
-        window.removeEventListener("resize", resize);
-      };
+        window.removeEventListener("resize", resize)
+      }
     }
-    return () => { };
-  }, [scene]);
+    return () => { }
+  }, [scene])
 
   useEffect(() => {
     if (!loaded && reactCanvas.current) {
-      setLoaded(true);
+      setLoaded(true)
       const engine = new Engine(
         reactCanvas.current,
         antialias,
         engineOptions,
         adaptToDeviceRatio
-      );
+      )
       var postProcess = new FxaaPostProcess("fxaa", 1.0, null, 0, engine, true);
-      console.log("postProcess", postProcess);
-      engine.enableOfflineSupport = true;
-      const scene = new Scene(engine, sceneOptions);
-      scene.clearColor = new Color4(1, 1, 1, 1.0).toLinearSpace();
-      setScene(scene);
+      console.log("postProcess", postProcess)
+      engine.enableOfflineSupport = true
+      const scene = new Scene(engine, sceneOptions)
+      scene.clearColor = new Color4(1, 1, 1, 1.0).toLinearSpace()
+      setScene(scene)
       if (scene.isReady()) {
-        props.onSceneReady(scene);
+        props.onSceneReady(scene)
       } else {
-        scene.onReadyObservable.addOnce((scene) => props.onSceneReady(scene));
+        scene.onReadyObservable.addOnce((scene) => props.onSceneReady(scene))
       }
 
       engine.runRenderLoop(() => {
-        scene.render();
-      });
+        scene.render()
+      })
     }
 
     return () => {
       if (scene !== null) {
-        console.error("disposing of scene");
-        scene.dispose();
-        setLoaded(false);
+        console.error("disposing of scene")
+        scene.dispose()
+        setLoaded(false)
       }
-    };
-  }, []);
+    }
+  }, [])
 
   return (
     <div className="row" style={{ height: props.orientation ? 'auto' : '100%', overflowY: props.orientation ? 'auto' : 'hidden' }}>
@@ -157,19 +157,19 @@ const VisulizerComponent = ({
   gripperSize,
   orientation
 }: VisulizerComponentProps) => {
-  const [isModalLoaded, setIsModalLoaded] = useState(false);
-  const [scene, setScene] = useState<Scene | null>(null);
-  const [radianstoDegreeFactor] = useState(57.2958);
+  const [isModalLoaded, setIsModalLoaded] = useState(false)
+  const [scene, setScene] = useState<Scene | null>(null)
+  const [radianstoDegreeFactor] = useState(57.2958)
   useEffect(() => {
-    document.addEventListener("scroll", () => { });
+    document.addEventListener("scroll", () => { })
     return () => {
       document.removeEventListener("scroll", () => {
         document!.getElementById("canvasId")!.onwheel = (event) => {
-          event.preventDefault();
-        };
-      });
-    };
-  }, []);
+          event.preventDefault()
+        }
+      })
+    }
+  }, [])
 
   // if (document && document.getElementById('canvasId') !== null) {
   //   document!.getElementById('canvasId')!.onwheel = (event) => {
@@ -179,7 +179,7 @@ const VisulizerComponent = ({
   // function to convert rgba values to array
   const colorValues = (color: any) => {
     if (color === "") return;
-    if (color.toLowerCase() === "transparent") return [0, 0, 0, 0];
+    if (color.toLowerCase() === "transparent") return [0, 0, 0, 0]
     if (color[0] === "#") {
       if (color.length < 7) {
         // convert #RGB and #RGBA to #RRGGBB and #RRGGBBAA
@@ -191,33 +191,33 @@ const VisulizerComponent = ({
           color[2] +
           color[3] +
           color[3] +
-          (color.length > 4 ? color[4] + color[4] : "");
+          (color.length > 4 ? color[4] + color[4] : "")
       }
       return [
         parseInt(color.substr(1, 2), 16),
         parseInt(color.substr(3, 2), 16),
         parseInt(color.substr(5, 2), 16),
         color.length > 7 ? parseInt(color.substr(7, 2), 16) / 255 : 1,
-      ];
+      ]
     }
     if (color.indexOf("rgb") === -1) {
       // convert named colors
       var temp_elem = document.body.appendChild(
         document.createElement("fictum")
       ); // intentionally use unknown tag to lower chances of css rule override with !important
-      var flag = "rgb(1, 2, 3)"; // this flag tested on chrome 59, ff 53, ie9, ie10, ie11, edge 14
-      temp_elem.style.color = flag;
-      if (temp_elem.style.color !== flag) return; // color set failed - some monstrous css rule is probably taking over the color of our object
-      temp_elem.style.color = color;
+      var flag = "rgb(1, 2, 3)" // this flag tested on chrome 59, ff 53, ie9, ie10, ie11, edge 14
+      temp_elem.style.color = flag
+      if (temp_elem.style.color !== flag) return // color set failed - some monstrous css rule is probably taking over the color of our object
+      temp_elem.style.color = color
       if (temp_elem.style.color === flag || temp_elem.style.color === "")
         return; // color parse failed
-      color = getComputedStyle(temp_elem).color;
-      document.body.removeChild(temp_elem);
+      color = getComputedStyle(temp_elem).color
+      document.body.removeChild(temp_elem)
     }
     if (color.indexOf("rgb") === 0) {
       if (color.indexOf("rgba") === -1) color += ",1"; // convert 'rgb(R,G,B)' to 'rgb(R,G,B)A' which looks awful but will pass the regxep below
       return color.match(/[\.\d]+/g).map(function (a: number) {
-        return +a;
+        return +a
       });
     }
   };
@@ -227,10 +227,10 @@ const VisulizerComponent = ({
     axis: Vector3
   ) => {
     if (joint) {
-      let quaternion = Quaternion.RotationAxis(axis, angle);
-      joint.rotationQuaternion = quaternion;
+      let quaternion = Quaternion.RotationAxis(axis, angle)
+      joint.rotationQuaternion = quaternion
     }
-  };
+  }
 
   const setJointPosition = (
     joint0Radians: number,
@@ -256,18 +256,18 @@ const VisulizerComponent = ({
 
   const setGripperOpenSize = (sizeValue: number) => {
     if (sizeValue < 0) {
-      sizeValue = 0;
+      sizeValue = 0
     } else if (sizeValue > 100) {
-      sizeValue = 100;
+      sizeValue = 100
     }
-    var gripperArmAngle = sizeValue - 30.0;
-    var angleinradian = gripperArmAngle / radianstoDegreeFactor;
-    setGripper(gripper_Joint_Inner_Left, -angleinradian, new Vector3(0, 1, 0));
-    setGripper(gripper_Joint_Outer_Left, -angleinradian, new Vector3(0, 1, 0));
-    setGripper(gripper_Joint_Inner_Right, angleinradian, new Vector3(0, 1, 0));
-    setGripper(gripper_Joint_Outer_Right, angleinradian, new Vector3(0, 1, 0));
-    setGripper(gripper_Tip_Left, angleinradian, new Vector3(0, 1, 0));
-    setGripper(gripper_Tip_Right, -angleinradian, new Vector3(0, 1, 0));
+    var gripperArmAngle = sizeValue - 30.0
+    var angleinradian = gripperArmAngle / radianstoDegreeFactor
+    setGripper(gripper_Joint_Inner_Left, -angleinradian, new Vector3(0, 1, 0))
+    setGripper(gripper_Joint_Outer_Left, -angleinradian, new Vector3(0, 1, 0))
+    setGripper(gripper_Joint_Inner_Right, angleinradian, new Vector3(0, 1, 0))
+    setGripper(gripper_Joint_Outer_Right, angleinradian, new Vector3(0, 1, 0))
+    setGripper(gripper_Tip_Left, angleinradian, new Vector3(0, 1, 0))
+    setGripper(gripper_Tip_Right, -angleinradian, new Vector3(0, 1, 0))
   };
   const setGripper = (
     joint: AbstractMesh | null,
@@ -278,7 +278,7 @@ const VisulizerComponent = ({
       let quaternion = Quaternion.RotationAxis(axis, angle);
       joint.rotationQuaternion = quaternion;
     }
-  };
+  }
   const onSceneReady = (scene: Scene) => {
     setScene(scene);
 
@@ -399,16 +399,19 @@ const VisulizerComponent = ({
       return;
     }
 
-    camera.panningSensibility = 100;
-    camera.wheelPrecision = 80;
-    camera.wheelDeltaPercentage = 0.01;
-    camera.angularSensibilityX = 500;
-    camera.angularSensibilityY = 500;
-    camera.attachControl(canvas, true);
-    camera.allowUpsideDown = true; // don't allow inversing camera
-    camera.lowerRadiusLimit = 5;
-    camera.upperRadiusLimit = 100;
-    camera.minZ = 0;
+    camera.panningSensibility = 100
+    camera.wheelPrecision = 80.0
+    camera.angularSensibilityX = 500
+    camera.angularSensibilityY = 500
+    camera.attachControl(canvas, true)
+    camera.allowUpsideDown = true // don't allow inversing camera
+    camera.lowerRadiusLimit = 5
+    camera.upperRadiusLimit = 150
+    camera.wheelDeltaPercentage = 0.05
+    camera.speed = 200
+    camera.inertia = 0
+    camera.noRotationConstraint = true
+    camera.minZ = 0
     // camera.viewport = new Viewport(0, 0, 1, 1);
     // Set to use only right mouse button
     // ;(camera.inputs.attached.pointers as ArcRotateCameraPointersInput).buttons = [2]
